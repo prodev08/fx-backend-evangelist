@@ -1,0 +1,17 @@
+{
+  "extends": "./node_modules/gts/",
+  "rules": {
+    "prefer-const": "warn",
+    "no-process-exit": "off",
+    "node/no-extraneous-import": "warn",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "node/no-unpublished-import": "warn"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  }
+}

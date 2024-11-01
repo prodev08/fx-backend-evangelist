@@ -1,0 +1,4 @@
+build/
+schema.graphql
+src/nexus/generated/typings.ts
+tests/types/graphql.ts

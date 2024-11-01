@@ -1,0 +1,13 @@
+query getSports{
+  result: getSports {
+    count
+    total
+    items {
+      id
+      createdAt
+      updatedAt
+      name
+      slug
+    }
+  }
+}

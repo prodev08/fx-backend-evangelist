@@ -1,0 +1,8 @@
+mutation unsupport ($lockerRoomID: String!) {
+  return:  unsupport (lockerRoomID: $lockerRoomID) {
+        objectID
+        objectType
+        success
+        timestamp
+    }
+}

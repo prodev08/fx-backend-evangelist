@@ -1,0 +1,8 @@
+mutation deleteMessage ($chatID: String!, $deleteForSelf: Boolean!, $deleteForEveryone: Boolean!) {
+  result:  deleteMessage (chatID: $chatID, deleteForSelf: $deleteForSelf, deleteForEveryone: $deleteForEveryone) {
+        objectID
+        objectType
+        success
+        timestamp
+    }
+}

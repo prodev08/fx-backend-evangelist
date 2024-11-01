@@ -1,0 +1,8 @@
+mutation deleteChannel ($id: String!) {
+   result: deleteChannel (id: $id) {
+        objectID
+        objectType
+        success
+        timestamp
+    }
+}

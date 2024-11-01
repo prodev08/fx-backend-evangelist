@@ -1,0 +1,8 @@
+mutation undeleteChannelGroup ($id: String!) {
+  result:  undeleteChannelGroup(id: $id) {
+        objectID
+        objectType
+        success
+        timestamp
+    }
+}

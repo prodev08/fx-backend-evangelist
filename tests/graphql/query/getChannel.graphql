@@ -1,0 +1,14 @@
+query getChannel($id: String, $slug: String) {
+  result: getChannel(id: $id, slug: $slug) {
+    id
+    createdAt
+    updatedAt
+    name
+    slug
+    description
+    channelGroupID
+    type
+    isDeleted
+    unreadMessagesCount
+  }
+}

@@ -1,0 +1,8 @@
+mutation createFormEntry ($type: String!, $data: JSON) {
+  result:  createFormEntry(type: $type, data: $data) {
+        objectID
+        objectType
+        success
+        timestamp
+    }
+}

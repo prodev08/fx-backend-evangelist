@@ -1,0 +1,8 @@
+mutation sendMessage($channelSlug: String!, $text: String, $chatID: String!, $repliedToChatID: String, $Media: [InputMedia!], $MentionedUserIDs: [String!]) {
+  result: sendMessage(channelSlug: $channelSlug, text: $text, chatID: $chatID, repliedToChatID: $repliedToChatID, Media: $Media, MentionedUserIDs: $MentionedUserIDs) {
+    objectID
+    objectType
+    success
+    timestamp
+  }
+}

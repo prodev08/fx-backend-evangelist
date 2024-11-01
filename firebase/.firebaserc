@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "fx1-development",
+    "development": "fx1-development",
+    "staging": "fx1-staging-dc58c",
+    "production": "fx1-production"
+  },
+  "targets": {}
+}

@@ -1,0 +1,8 @@
+mutation editChannel ($id: String!, $input: InputEditChannel!) {
+   result: editChannel (id: $id, input: $input) {
+        objectID
+        objectType
+        success
+        timestamp
+    }
+}

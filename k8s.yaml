@@ -1,0 +1,168 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: fx1-public
+  labels:
+    name: fx1-public
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fx1-public-backend-config-map
+  namespace: fx1-public
+data:
+  APP_ENV: ${env.APP_ENV}
+  PORT: "${env.PORT}"
+  STORAGE_BUCKET_NAME: "${env.STORAGE_BUCKET_NAME}"
+  BASE_URL: "${env.BASE_URL}"
+  SENTRY_DSN: "${env.SENTRY_DSN}"
+  REDIRECTING_DOMAIN_FX1: "${env.REDIRECTING_DOMAIN_FX1}"
+  REDIS_URL: "${env.REDIS_URL}"
+  ARE_YOU_WATCHING_THIS_URL: "${env.ARE_YOU_WATCHING_THIS_URL}"
+---
+apiVersion: v1
+kind: Secret
+stringData:
+  MONGODB_URI: ${env.MONGODB_URI}
+  GOOGLE_APPLICATION_CREDENTIALS_BE: ${env.GOOGLE_APPLICATION_CREDENTIALS_BE}
+  SENDGRID_API_KEY: ${env.SENDGRID_API_KEY}
+  MIXPANEL_TOKEN: ${env.MIXPANEL_TOKEN}
+  ARE_YOU_WATCHING_THIS_API_KEY: ${env.ARE_YOU_WATCHING_THIS_API_KEY}
+metadata:
+  name: fx1-public-backend-secrets
+  namespace: fx1-public
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fx1-public-backend-deployment
+  namespace: fx1-public
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: fx1-public-backend-deployment
+  template:
+    metadata:
+      labels:
+        component: fx1-public-backend-deployment
+    spec:
+      containers:
+        - name: fx1-public-backend
+          image: gcr.io/${env.GCLOUD_PROJECT}/fx1-public-backend-deployment:${env.IMAGE_TAG}-${env.BITBUCKET_COMMIT}
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: fx1-public-backend-config-map
+            - secretRef:
+                name: fx1-public-backend-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    beta.cloud.google.com/backend-config: '{"ports": {"8080":"fx1-public-backend-backend"}}'
+  name: fx1-public-backend-service
+  namespace: fx1-public
+spec:
+  type: ClusterIP
+  selector:
+    component: fx1-public-backend-deployment
+  ports:
+    - name: http
+      targetPort: 8080
+      port: 8080
+---
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: fx1-public-backend-certificate
+  namespace: fx1-public
+spec:
+  domains:
+      - ${env.DOMAIN}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fx1-public-backend-ingress
+  namespace: fx1-public
+  labels:
+    app: fx1-public-backend-deployment
+  annotations:
+    networking.gke.io/v1beta1.FrontendConfig: fx1-public-backend-frontend
+    # kubernetes.io/ingress.global-static-ip-name: fx1-public-backend-ip
+    networking.gke.io/managed-certificates: fx1-public-backend-certificate
+spec:
+  rules:
+    - host: "${env.DOMAIN}"
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+                service:
+                  name: fx1-public-backend-service
+                  port:
+                    number: 8080
+---
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: fx1-public-backend-frontend
+  namespace: fx1-public
+---
+apiVersion: cloud.google.com/v1beta1
+kind: BackendConfig
+metadata:
+  name: fx1-public-backend-backend
+spec:
+  timeoutSec: 21600
+  connectionDraining:
+    drainingTimeoutSec: 21600
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:alpine3.15
+          ports:
+            - containerPort: 6379
+              name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  selector:
+    app: redis
+  ports:
+    - port: 6379
+      name: redis
+      targetPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: fx1-public
+spec:
+  type: ExternalName
+  externalName: redis.default.svc.cluster.local
+  ports:
+    - port: 6379

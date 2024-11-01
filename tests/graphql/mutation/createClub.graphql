@@ -1,0 +1,8 @@
+mutation createClub($input: InputCreateClub!) {
+  result: createClub(input: $input) {
+    objectID
+    objectType
+    success
+    timestamp
+  }
+}

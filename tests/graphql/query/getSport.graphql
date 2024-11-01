@@ -1,0 +1,9 @@
+query getSport($id: String, $slug: String) {
+  result: getSport(id: $id, slug: $slug) {
+    id
+    createdAt
+    updatedAt
+    name
+    slug
+  }
+}

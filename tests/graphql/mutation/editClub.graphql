@@ -1,0 +1,8 @@
+mutation editClub($id: String!, $input: InputEditClub!) {
+  result: editClub(id: $id, input: $input) {
+    objectID
+    objectType
+    success
+    timestamp
+  }
+}

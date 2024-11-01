@@ -1,0 +1,8 @@
+mutation support ($lockerRoomID: String!) {
+  result:  support (lockerRoomID: $lockerRoomID) {
+        objectID
+        objectType
+        success
+        timestamp
+    }
+}

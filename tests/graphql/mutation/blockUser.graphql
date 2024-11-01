@@ -1,0 +1,8 @@
+mutation blockUser ($targetUserID: String!) {
+   result: blockUser (targetUserID: $targetUserID) {
+        objectID
+        objectType
+        success
+        timestamp
+    }
+}

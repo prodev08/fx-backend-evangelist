@@ -1,0 +1,18 @@
+query getChannels{
+  result: getChannels {
+    count
+    total
+    items {
+      id
+      createdAt
+      updatedAt
+      name
+      slug
+      description
+      channelGroupID
+      type
+      isDeleted
+      unreadMessagesCount
+    }
+  }
+}

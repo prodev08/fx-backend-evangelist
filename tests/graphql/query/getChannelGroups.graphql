@@ -1,0 +1,29 @@
+query getChannelGroups{
+  result: getChannelGroups {
+    count
+    total
+    items {
+      id
+      createdAt
+      updatedAt
+      name
+      slug
+      description
+      group
+      lockerRoomID
+      isDeleted
+      Channels {
+        id
+        createdAt
+        updatedAt
+        name
+        slug
+        description
+        channelGroupID
+        type
+        isDeleted
+        unreadMessagesCount
+      }
+    }
+  }
+}

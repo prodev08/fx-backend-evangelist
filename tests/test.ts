@@ -1,0 +1,21 @@
+import sport from './integration/sport.partialtest';
+import league from './integration/league.partialtest';
+import club from './integration/club.partialtest';
+import fanGroup from './integration/fanGroup.partialtest';
+import channelGroup from './integration/channelGroup.partialtest';
+import channel from './integration/channel.partialtest';
+import lockerRoom from './integration/lockerRoom.partialtest';
+import message from './integration/message.partialtest';
+import user from './integration/user.partialtest';
+import formEntry from './integration/formEntry.partialtest';
+
+sport();
+league();
+club();
+fanGroup();
+channelGroup();
+channel();
+lockerRoom();
+message();
+user();
+formEntry();

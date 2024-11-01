@@ -1,0 +1,26 @@
+query getFanGroups{
+  result: getFanGroups {
+    count
+    total
+    items {
+      id
+      createdAt
+      updatedAt
+      name
+      slug
+      sportIDs
+      Avatar {
+        objectID
+        objectType
+        isSport
+        PhotoURL
+      }
+      CoverPhoto {
+        objectID
+        objectType
+        isSport
+        PhotoURL
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+query getFanGroup($id: String, $slug: String) {
+  result: getFanGroup(id: $id, slug: $slug) {
+    id
+    createdAt
+    updatedAt
+    name
+    slug
+    sportIDs
+    Avatar {
+      objectID
+      objectType
+      isSport
+      PhotoURL
+    }
+    CoverPhoto {
+      objectID
+      objectType
+      isSport
+      PhotoURL
+    }
+  }
+}
